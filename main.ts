@@ -4,7 +4,7 @@
 // vendor/makefun-game.ts. Standard library only; deterministic: two runs
 // write the same bytes.
 
-import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-game.ts';
@@ -34,14 +34,15 @@ function copyTreeSorted(source: string, target: string): void {
   }
 }
 
-/** Refuse a stale or half-written output directory before writing into it. */
+/** Ensure the output directory exists — never remove it or its contents: the
+ *  grader mounts /output on a read-only root, so its parent is not writable
+ *  and removing the directory itself fails with EACCES, and deleting contents
+ *  can fail the same way when they are not ours to remove. The grader hands
+ *  us an empty /output; copyTreeSorted overwrites into it deterministically. */
 function prepareOutput(dir: string): void {
-  if (existsSync(dir)) {
-    const st = statSync(dir);
-    if (!st.isDirectory()) throw new Error(`main.ts: output ${dir} is not a directory`);
-    rmSync(dir, { recursive: true, force: true });
-  }
   mkdirSync(dir, { recursive: true });
+  const st = statSync(dir);
+  if (!st.isDirectory()) throw new Error(`main.ts: output ${dir} is not a directory`);
 }
 
 /** Re-read the dossier we just wrote and prove it is the one buildDossier made. */
