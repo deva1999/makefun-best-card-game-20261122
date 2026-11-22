@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stormspire Duel — an original card battler</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+
+  <header id="hud" hidden>
+    <div class="side player-side">
+      <div class="who"><span class="avatar avatar-you">W</span><span class="name">Wren</span><span class="title">the Ember Cartographer</span></div>
+      <div class="lifebar" id="player-life"><div class="lifefill"></div><span class="lifenumber"></span></div>
+      <div class="embers" id="player-embers" aria-label="Your embers"></div>
+    </div>
+    <div class="middle">
+      <div class="trickline" id="trick-line">Trick 1 · Storm 0 · Score 0</div>
+      <div class="stormline" id="storm-line">The spire sleeps.</div>
+    </div>
+    <div class="side rival-side">
+      <div class="who"><span class="avatar avatar-vex">V</span><span class="name">Vex</span><span class="title">the Clockwork Duchess</span></div>
+      <div class="lifebar" id="rival-life"><div class="lifefill"></div><span class="lifenumber"></span></div>
+      <div class="embers" id="rival-embers" aria-label="Vex's embers"></div>
+    </div>
+  </header>
+
+  <main id="stage">
+    <section id="title-screen">
+      <p class="kicker">A duel of cards atop a living storm</p>
+      <h1>STORMSPIRE<br>DUEL</h1>
+      <p class="tagline">Forty named cards. Four suits. One duchess who never bluffs twice.</p>
+      <div class="cycle" id="suit-cycle"></div>
+      <div class="rules">
+        <div><b>Win the trick.</b> Play a card; the higher power takes it and deals the difference as damage.</div>
+        <div><b>Suits bite.</b> Ember burns Gale, Gale scatters Stone, Stone drowns Tide, Tide douses Ember — a winning suit is +3 power.</div>
+        <div><b>Embers pay.</b> Every card costs embers. You gain two each trick — or channel the storm for three more and take the hit.</div>
+        <div><b>Break her.</b> First to bring the other to 0 life takes the spire. Every five tricks, the storm rises and every trick hits harder.</div>
+      </div>
+      <button id="begin-button" class="big-button">Begin the Duel</button>
+      <p class="keys">Click a card, or press 1–5 to choose and Enter to play · R restarts · Channel with C</p>
+    </section>
+
+    <section id="table" hidden>
+      <div id="rival-row" class="row">
+        <div class="hand-backs" id="rival-hand"></div>
+        <div class="played-slot" id="rival-played"></div>
+      </div>
+      <div id="center-row" class="row">
+        <div id="banner" class="banner">Play a card to open the trick.</div>
+      </div>
+      <div id="player-row" class="row">
+        <div class="played-slot" id="player-played"></div>
+        <div class="hand" id="player-hand"></div>
+      </div>
+      <div id="actions" class="row">
+        <button id="play-button" class="action-button" disabled>Play Card</button>
+        <button id="channel-button" class="action-button ghost">Channel Embers (+3, take 2)</button>
+        <button id="restart-button" class="action-button ghost">Restart Duel</button>
+        <span id="selected-info" class="selected-info">Choose a card from your hand.</span>
+      </div>
+    </section>
+
+    <section id="end-screen" hidden>
+      <h1 id="end-title">The Spire Is Yours</h1>
+      <p id="end-subtitle" class="tagline"></p>
+      <div id="end-stats" class="stats"></div>
+      <div id="confetti" aria-hidden="true"></div>
+      <button id="again-button" class="big-button">Duel Again</button>
+      <button id="title-button" class="action-button ghost">Back to Title</button>
+    </section>
+  </main>
+
+  <aside id="log-panel" hidden>
+    <h2>Duel Log</h2>
+    <ol id="log-list"></ol>
+  </aside>
+
+  <footer id="foot">Stormspire Duel — an original game. No network, no accounts, just cards.</footer>
+</div>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
